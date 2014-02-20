@@ -50,7 +50,7 @@ sudo apt-get install git || {
 
 echo 'Creating imbk bin folder';
 
-mkdir $_BASE/bin || {
+sudo mkdir $_BASE/bin || {
   echo Could not create imbk/bin folder;
   exit 3
 }
@@ -59,7 +59,7 @@ mkdir $_BASE/bin || {
 
 echo 'Creating lib directory'
 
-mkdir $_BASE/lib || {
+sudo mkdir $_BASE/lib || {
   echo Could not create lib folder
   exit
 }
@@ -68,7 +68,7 @@ mkdir $_BASE/lib || {
 
 echo 'Creating var directory'
 
-mkdir $_BASE/var || {
+sudo mkdir $_BASE/var || {
   echo Could not create var directory
   exit
 }
@@ -77,7 +77,7 @@ mkdir $_BASE/var || {
 
 echo 'Creating data directory'
 
-mkdir $_BASE/var/data || {
+sudo mkdir $_BASE/var/data || {
   echo Could not create data directory
   exit
 }
@@ -86,7 +86,7 @@ mkdir $_BASE/var/data || {
 
 echo 'Creating agent data directory'
 
-mkdir $_BASE/var/data/agent || {
+sudo mkdir $_BASE/var/data/agent || {
   echo COuld not create agent data directory
   exit
 }
@@ -95,7 +95,7 @@ mkdir $_BASE/var/data/agent || {
 
 echo 'Creating apps directory'
 
-mkdir $_BASE/apps || {
+sudo mkdir $_BASE/apps || {
   echo Could not create apps directory
   exit
 }
@@ -110,29 +110,30 @@ cd $_BASE/lib || {
   echo Could not cd lib
   exit
 }
-wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz || {
+
+sudo wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz || {
   echo Could not download mongodb
   exit
 }
 
 echo 'Uncompressing mongodb'
 
-tar -xzf mongodb-linux-x86_64-2.4.9.tgz || {
+sudo tar -xzf mongodb-linux-x86_64-2.4.9.tgz || {
   echo Could not uncompress mongodb
   exit
 }
-ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongo $_BASE/bin/mongo || {
+sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongo $_BASE/bin/mongo || {
   echo Could not create mongo daemon shortcut
   exit
 }
-ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongod $_BASE/bin/mongod || {
+sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongod $_BASE/bin/mongod || {
   echo Could not create mongo shell shortcut
   exit
 }
 
-touch /tmp/immomongo
+sudo touch /tmp/immomongo
 
-$_BASE/bin/mongod --dbpath $_BASE/var/data/agent 1>/tmp/immomongo 2>/tmp/immomongo &
+sudo $_BASE/bin/mongod --dbpath $_BASE/var/data/agent 1>/tmp/immomongo 2>/tmp/immomongo &
 echo 'Waiting for mongodb to be up'
 
 mongod_started='no'
@@ -154,7 +155,7 @@ while [ "$mongod_started" = no ]; do
   }
 done
 
-$_BASE/bin/mongo << MONGO
+sudo $_BASE/bin/mongo << MONGO
 use agent;
 db.services.insert({ "service": "Agent" });
 db.services.insert({ "service": "API" });
@@ -175,14 +176,14 @@ echo 'Installing MySQL'
 
 cd $_BASE/lib
 
-# wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.15-debian6.0-x86_64.deb -O mysql-5.6.15-debian6.0-x86_64.deb || {
-#   echo Could not download MySQL
-#   exit
-# }
-# sudo dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb || {
-#   echo Could not install MySQL
-#   exit
-# }
+sudo wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.15-debian6.0-x86_64.deb -O mysql-5.6.15-debian6.0-x86_64.deb || {
+  echo Could not download MySQL
+  exit
+}
+sudo dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb || {
+  echo Could not install MySQL
+  exit
+}
 
 # ################################################### #
 # Installing node
@@ -192,11 +193,11 @@ echo 'Installing nvm';
 
 cd $_BASE/lib
 
-git clone https://github.com/creationix/nvm || {
+sudo git clone https://github.com/creationix/nvm || {
   echo Could not download nvm
   exit
 }
-. nvm/nvm.sh || {
+. $_BASE/lib/nvm/nvm.sh || {
   echo Could not source nvm
   exit
 }
@@ -215,11 +216,11 @@ nvm use v0.10.25 || {
 
 echo 'Creating node shortcuts'
 
-ln -s $_BASE/lib/nvm/v0.10.25/bin/node $_BASE/bin/node || {
+sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/node $_BASE/bin/node || {
   echo 'Could not create node shortcut'
   exit
 }
-ln -s $_BASE/lib/nvm/v0.10.25/bin/npm $_BASE/bin/npm || {
+sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/npm $_BASE/bin/npm || {
   echo Could not create npm shortcut
   exit
 }
