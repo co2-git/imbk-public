@@ -2,17 +2,25 @@
 
 function printm () {
   echo '##################################################'
+  echo
   echo "$@"
+  echo
   echo '##################################################'
 }
 
 function printe () {
   echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  echo
   echo "$@"
+  echo
   echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
 }
 
 printm 'Installing Immobileaks SDK'
+
+printm Installing low-level dependencies
+
+sudo apt-get install curl libcurl4
 
 _USER=imbk
 _BASE=/home/$_USER;
