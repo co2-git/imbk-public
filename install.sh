@@ -20,7 +20,7 @@ printm 'Installing Immobileaks SDK'
 
 printm Installing low-level dependencies
 
-sudo apt-get install curl libcurl4
+sudo apt-get install curl  libcurl4-openssl-dev
 
 _USER=imbk
 _BASE=/home/$_USER;
