@@ -1,6 +1,18 @@
 #! /bin/bash
 
-echo 'Installing Immobileaks SDK'
+function printm () {
+  echo '##################################################'
+  echo "$@"
+  echo '##################################################'
+}
+
+function printe () {
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+  echo "$@"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+}
+
+printm 'Installing Immobileaks SDK'
 
 _USER=imbk
 _BASE=/home/$_USER;
@@ -9,14 +21,17 @@ _BASE=/home/$_USER;
 # Creating user
 # ################################################### #
 
-echo Creating unix user $_USER
+printm Creating unix user $_USER
+
 sudo adduser --disabled-password --gecos ',,,,' $_USER || {
-  echo Could not create unix user
+  printe Could not create unix user
   exit
 }
-echo Setting unix user password
+
+printm Setting unix user password
+
 sudo passwd $_USER || {
-  echo Could not set unix user password
+  printe Could not set unix user password
   exit
 }
 
@@ -28,27 +43,28 @@ read -p 'Please enter your github username: ' github_user
 read -p 'Please enter your github email address: ' github_email
 
 if [ -z "$github_user" ]; then
-  echo 'Missing github username';
+  printe 'Missing github username';
   exit
 fi
 
 if [ -z "$github_email" ]; then
-  echo 'Missing github email';
+  printe 'Missing github email';
   exit
 fi
 
-echo 'Installing latest git'
+printm 'Installing latest git'
 
 sudo add-apt-repository ppa:git-core/ppa || {
-  echo 'Could not add git ppa';
+  printe 'Could not add git ppa';
   exit
 }
+
 sudo apt-get update || {
-  echo 'Could not update apt'
+  printe 'Could not update apt'
   exit
 }
 sudo apt-get install git || {
-  echo 'Could not install git'
+  printe 'Could not install git'
   exit
 }
 
@@ -56,55 +72,55 @@ sudo apt-get install git || {
 # Creating folders
 # ################################################### #
 
-echo 'Creating imbk bin folder';
+printm 'Creating imbk bin folder';
 
 sudo mkdir $_BASE/bin || {
-  echo Could not create imbk/bin folder;
+  printe Could not create imbk/bin folder;
   exit 3
 }
 
 # create lib directory
 
-echo 'Creating lib directory'
+printm 'Creating lib directory'
 
 sudo mkdir $_BASE/lib || {
-  echo Could not create lib folder
+  printe Could not create lib folder
   exit
 }
 
 # create var directory
 
-echo 'Creating var directory'
+printm 'Creating var directory'
 
 sudo mkdir $_BASE/var || {
-  echo Could not create var directory
+  printe Could not create var directory
   exit
 }
 
 # create data directory
 
-echo 'Creating data directory'
+printm 'Creating data directory'
 
 sudo mkdir $_BASE/var/data || {
-  echo Could not create data directory
+  printe Could not create data directory
   exit
 }
 
 # create agent data directory
 
-echo 'Creating agent data directory'
+printm 'Creating agent data directory'
 
 sudo mkdir $_BASE/var/data/agent || {
-  echo COuld not create agent data directory
+  printe COuld not create agent data directory
   exit
 }
 
 # apps directory
 
-echo 'Creating apps directory'
+printm 'Creating apps directory'
 
 sudo mkdir $_BASE/apps || {
-  echo Could not create apps directory
+  printe Could not create apps directory
   exit
 }
 
@@ -112,50 +128,56 @@ sudo mkdir $_BASE/apps || {
 # Installing mongodb
 # ################################################### #
 
-echo 'Installing mongodb'
+printm 'Installing mongodb'
 
 cd $_BASE/lib || {
-  echo Could not cd lib
+  printe Could not cd lib
   exit
 }
 
 sudo wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz || {
-  echo Could not download mongodb
+  printe Could not download mongodb
   exit
 }
 
-echo 'Uncompressing mongodb'
+printm 'Uncompressing mongodb'
 
 sudo tar -xzf mongodb-linux-x86_64-2.4.9.tgz || {
-  echo Could not uncompress mongodb
+  printe Could not uncompress mongodb
   exit
 }
+
 sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongo $_BASE/bin/mongo || {
-  echo Could not create mongo daemon shortcut
+  printe Could not create mongo daemon shortcut
   exit
 }
+
 sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongod $_BASE/bin/mongod || {
-  echo Could not create mongo shell shortcut
+  printe Could not create mongo shell shortcut
   exit
 }
 
 touch /tmp/immomongo
 
 sudo $_BASE/bin/mongod --dbpath $_BASE/var/data/agent 1>/tmp/immomongo 2>/tmp/immomongo &
-echo 'Waiting for mongodb to be up'
+
+printm 'Waiting for mongodb to be up'
 
 mongod_started='no'
 loopx=$((0))
 
 while [ "$mongod_started" = no ]; do
   grep 2>/dev/null 1>/dev/null 'waiting for connections on port 27017' /tmp/immomongo && {
-    echo mongodb is up
+    printm mongodb is up
+    
     mongod_started=yes
   } || {
     echo mongodb not up yet
+    
     (( loopx ++ ))
+    
     if [ $loopx -gt 50 ]; then
-      echo 'Could not start mongod'
+      printe 'Could not start mongod'
       exit
     else
       sleep 1
@@ -172,7 +194,7 @@ db.services.insert({ "service": "App" });
 MONGO
 
 if [ $? -ne 0 ]; then
-  echo Could not connect to mongo
+  printe Could not connect to mongo
   exit
 fi
 
