@@ -9,8 +9,16 @@ _BASE=/home/$_USER;
 # Creating user
 # ################################################### #
 
-sudo adduser --disabled-password --gecos ',,,,' $_USER
-sudo passwd $_USER
+echo Creating unix user $_USER
+sudo adduser --disabled-password --gecos ',,,,' $_USER || {
+  echo Could not create unix user
+  exit
+}
+echo Setting unix user password
+sudo passwd $_USER || {
+  echo Could not set unix user password
+  exit
+}
 
 # ################################################### #
 # Installing git
