@@ -210,16 +210,16 @@ fi
 # Installing MySQL
 # ################################################### #
 
-echo 'Installing MySQL'
+printm 'Installing MySQL'
 
 cd $_BASE/lib
 
 sudo wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.15-debian6.0-x86_64.deb -O mysql-5.6.15-debian6.0-x86_64.deb || {
-  echo Could not download MySQL
+  printe Could not download MySQL
   exit
 }
 sudo dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb || {
-  echo Could not install MySQL
+  printe Could not install MySQL
   exit
 }
 
@@ -227,71 +227,71 @@ sudo dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb || {
 # Installing node
 # ################################################### #
 
-echo 'Installing nvm';
+printm 'Installing nvm';
 
 cd $_BASE/lib
 
 sudo git clone https://github.com/creationix/nvm || {
-  echo Could not download nvm
+  printe Could not download nvm
   exit
 }
 . $_BASE/lib/nvm/nvm.sh || {
-  echo Could not source nvm
+  printe Could not source nvm
   exit
 }
 
-echo 'Installling node';
+printm 'Installling node';
 
-nvm install v0.10.25 || {
-  echo Could not install node
+sudo nvm install v0.10.25 || {
+  printe Could not install node
   exit
 }
 
-nvm use v0.10.25 || {
-  echo Could not use node
+sudo nvm use v0.10.25 || {
+  printe Could not use node
   exit
 }
 
-echo 'Creating node shortcuts'
+printm 'Creating node shortcuts'
 
 sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/node $_BASE/bin/node || {
-  echo 'Could not create node shortcut'
+  printe 'Could not create node shortcut'
   exit
 }
 sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/npm $_BASE/bin/npm || {
-  echo Could not create npm shortcut
+  printe Could not create npm shortcut
   exit
 }
 
 # Installing node modules
 
-echo 'Creating package.json'
+# echo 'Creating package.json'
 
-cat <<DOC > $_BASE/package.json
-{
-  "name": "imbk",
-  "version": "0.0.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "BSD",
-  "dependencies": {
-    "express": "~3.4.7",
-    "bower": "~1.2.8"
-  }
-}
-DOC
+# cat <<DOC > $_BASE/package.json
+# {
+#   "name": "imbk",
+#   "version": "0.0.0",
+#   "description": "",
+#   "scripts": {
+#     "test": "echo \"Error: no test specified\" && exit 1"
+#   },
+#   "author": "",
+#   "license": "BSD",
+#   "dependencies": {
+#     "express": "~3.4.7",
+#     "bower": "~1.2.8"
+#   }
+# }
+# DOC
 
-echo 'Installing node modules';
+# echo 'Installing node modules';
 
-cd $_BASE
+# cd $_BASE
 
-$_BASE/bin/npm install || {
-  echo Could not install node modules
-  exit
-}
+# $_BASE/bin/npm install || {
+#   echo Could not install node modules
+#   exit
+# }
 
 
 
@@ -299,30 +299,32 @@ $_BASE/bin/npm install || {
 # Installing agent
 # ################################################### #
 
-echo 'Installing agent';
+printm 'Installing agent';
 
 cd $_BASE/apps
 
-git clone https://$github_user@github.com/$github_user/imbk-agent agent || {
-  echo Could not clone agent
+sudo git clone https://$github_user@github.com/$github_user/imbk-agent agent || {
+  printe Could not clone agent
   exit
 }
 
 cd $_BASE/apps/agent || {
-  echo Could not cd to agent
+  printe Could not cd to agent
   exit
 }
 
-git remote add upstream https://$github_user@github.com/xvespa/imbk-agent || {
-  echo Could not add agent upstream
+sudo git remote add upstream https://$github_user@github.com/xvespa/imbk-agent || {
+  printe Could not add agent upstream
   exit
 }
-git config user.name $github_user || {
-  echo Could not configure github user name
+
+sudo git config user.name $github_user || {
+  printe Could not configure github user name
   exit
 }
-git config user.email $github_email || {
-  echo COuld not configure github email
+
+sudo git config user.email $github_email || {
+  printe COuld not configure github email
   exit
 }
 
