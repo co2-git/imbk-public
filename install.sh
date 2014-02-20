@@ -139,7 +139,7 @@ sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongod $_BASE/bin/mongod ||
   exit
 }
 
-sudo touch /tmp/immomongo
+touch /tmp/immomongo
 
 sudo $_BASE/bin/mongod --dbpath $_BASE/var/data/agent 1>/tmp/immomongo 2>/tmp/immomongo &
 echo 'Waiting for mongodb to be up'
