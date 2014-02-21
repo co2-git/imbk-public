@@ -206,8 +206,6 @@ if [ $? -ne 0 ]; then
   exit
 fi
 
-exit
-
 # ################################################### #
 # Installing MySQL
 # ################################################### #
@@ -216,11 +214,12 @@ printm 'Installing MySQL'
 
 cd $_BASE/lib
 
-sudo wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.15-debian6.0-x86_64.deb -O mysql-5.6.15-debian6.0-x86_64.deb || {
+sudo su imbk -c 'wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.15-debian6.0-x86_64.deb -O mysql-5.6.15-debian6.0-x86_64.deb' || {
   printe Could not download MySQL
   exit
 }
-sudo dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb || {
+
+sudo su imbk -c 'dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb' || {
   printe Could not install MySQL
   exit
 }
@@ -233,35 +232,36 @@ printm 'Installing nvm';
 
 cd $_BASE/lib
 
-sudo git clone https://github.com/creationix/nvm || {
+sudo su imbk -c 'git clone https://github.com/creationix/nvm' || {
   printe Could not download nvm
   exit
 }
 
-source $_BASE/lib/nvm/nvm.sh || {
+sudo source $_BASE/lib/nvm/nvm.sh || {
   printe Could not source nvm
   exit
 }
 
 printm 'Installling node';
 
-sudo nvm install v0.10.25 || {
+sudo su imbk -c "source ~/lib/nvm/nvm.sh; nvm install v0.10.25" || {
   printe Could not install node
   exit
 }
 
-sudo nvm use v0.10.25 || {
-  printe Could not use node
-  exit
-}
+# sudo su imbk -c nvm use v0.10.25 || {
+#   printe Could not use node
+#   exit
+# }
 
 printm 'Creating node shortcuts'
 
-sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/node $_BASE/bin/node || {
+sudo su imbk -c "ln -s ~/lib/nvm/v0.10.25/bin/node ~/bin/node" || {
   printe 'Could not create node shortcut'
   exit
 }
-sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/npm $_BASE/bin/npm || {
+
+sudo su imbk -c "ln -s ~/lib/nvm/v0.10.25/bin/npm ~/bin/npm" || {
   printe Could not create npm shortcut
   exit
 }
@@ -296,7 +296,7 @@ sudo ln -s $_BASE/lib/nvm/v0.10.25/bin/npm $_BASE/bin/npm || {
 #   exit
 # }
 
-
+exit
 
 # ################################################### #
 # Installing agent
