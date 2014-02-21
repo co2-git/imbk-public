@@ -379,67 +379,89 @@ printm 'Installing Modules bower dependencies'
 
 sudo su imbk -c "cd ~/apps/modules; ~/bin/node ~/node_modules/.bin/bower install"
 
-exit
-
 # ################################################### #
 # Installing App
 # ################################################### #
 
-echo 'Installing App';
+printm 'Installing App';
 
-cd $_BASE/apps
+sudo git clone https://$github_user@github.com/$github_user/imbk-app /home/imbk/apps/app
 
-git clone https://$github_user@github.com/$github_user/imbk-app app
+sudo chown -R imbk /home/imbk/apps/app
 
-cd $_BASE/apps/app
+sudo su imbk -c "cd ~/apps/app; git remote add upstream https://$github_user@github.com/xvespa/imbk-app" || {
+  printe Could not add app upstream
+  exit
+}
 
-git remote add upstream https://$github_user@github.com/xvespa/imbk-app
-git config user.name $github_user
-git config user.email $github_email
+sudo su imbk -c "cd ~/apps/app; git config user.name $github_user" || {
+  printe Could not configure github user name
+  exit
+}
+
+sudo su imbk -c "cd ~/apps/app; git config user.email $github_email" || {
+  printe COuld not configure github email
+  exit
+}
 
 # Install app dependencies
 
-echo 'Installing App node dependencies';
+printm 'Installing App node dependencies';
 
-$_BASE/bin/npm install
+sudo su imbk -c 'cd ~/apps/app; ~/bin/npm install' || {
+  printe Could not install app node dependencies
+  exit
+}
 
-echo 'Installing App bower dependencies'
+# Install modules dependencies
 
-cd $_BASE/apps/app/public
+printm 'Installing App bower dependencies'
 
-$_BASE/bin/node $_BASE/node_modules/.bin/bower install
+sudo su imbk -c "cd ~/apps/app/public; ~/bin/node ~/node_modules/.bin/bower install"
 
-ln -s $_BASE/apps/modules $_BASE/apps/app/public/bower_components/imbk_modules
+sudo su imbk -c "ln -s ~/apps/modules ~/apps/app/public/bower_components/imbk_modules"
 
 # ################################################### #
 # Installing Dashboard
 # ################################################### #
 
-echo 'Installing Dashboard';
+printm 'Installing Dashboard';
 
-cd $_BASE/apps
+sudo git clone https://$github_user@github.com/$github_user/imbk-dashboard /home/imbk/apps/dashboard
 
-git clone https://$github_user@github.com/$github_user/imbk-dashboard dashboard
+sudo chown -R imbk /home/imbk/apps/dashboard
 
-cd $_BASE/apps/dashboard
+sudo su imbk -c "cd ~/apps/dashboard; git remote add upstream https://$github_user@github.com/xvespa/imbk-dashboard" || {
+  printe Could not add dashboard upstream
+  exit
+}
 
-git remote add upstream https://$github_user@github.com/xvespa/imbk-dashboard
-git config user.name $github_user
-git config user.email $github_email
+sudo su imbk -c "cd ~/apps/dashboard; git config user.name $github_user" || {
+  printe Could not configure github user name
+  exit
+}
+
+sudo su imbk -c "cd ~/apps/dashboard; git config user.email $github_email" || {
+  printe COuld not configure github email
+  exit
+}
 
 # Install dashboard dependencies
 
-echo 'Installing Dashboard node dependencies';
+printm 'Installing Dashboard node dependencies';
 
-$_BASE/bin/npm install
+sudo su imbk -c 'cd ~/apps/dashboard; ~/bin/npm install' || {
+  printe Could not install dashboard node dependencies
+  exit
+}
 
-echo 'Installing Dashboard bower dependencies'
+# Install modules dependencies
 
-cd $_BASE/apps/dashboard/public
+printm 'Installing Dashboard bower dependencies'
 
-$_BASE/bin/node $_BASE/node_modules/.bin/bower install
+sudo su imbk -c "cd ~/apps/dashboard/public; ~/bin/node ~/node_modules/.bin/bower install"
 
-ln -s $_BASE/apps/modules $_BASE/apps/dashboard/public/bower_components/imbk_modules
+sudo su imbk -c "ln -s ~/apps/modules ~/apps/dashboard/public/bower_components/imbk_modules"
 
 # ################################################### #
 # Closing
@@ -447,12 +469,11 @@ ln -s $_BASE/apps/modules $_BASE/apps/dashboard/public/bower_components/imbk_mod
 
 # Copy start.sh to bin
 
-cd $_BASE/bin
-ln -s ../apps/agent/start.sh start
+sudo su imbk -c "ln -s ~/apps/agent/start.sh ~/bin/start"
 
-echo 'closing mongodb'
+printm 'closing mongodb'
 
-$_BASE/bin/mongod --dbpath $_BASE/var/data/agent --shutdown
+sudo su imbk -c "~/bin/mongod --dbpath ~/var/data/agent --shutdown"
 
 # ################################################### #
 # Starting
@@ -460,7 +481,7 @@ $_BASE/bin/mongod --dbpath $_BASE/var/data/agent --shutdown
 
 echo 'Starting ecosystem';
 
-$_BASE/bin/start || {
+sudo su imbk -c ~/bin/start || {
   echo Could not start ecosystem
   exit
 }
