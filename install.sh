@@ -298,10 +298,12 @@ sudo su imbk -c "ln -s ~/lib/nvm/v0.10.25/bin/npm ~/bin/npm" || {
 printm 'Installing agent';
 
 
-sudo su imbk -c "git clone https://$github_user@github.com/$github_user/imbk-agent ~/apps/agent" || {
+sudo git clone https://$github_user@github.com/$github_user/imbk-agent /home/imbk/apps/agent || {
   printe Could not clone agent
   exit
 }
+
+sudo chown -R imbk /home/imbk/apps/agent
 
 sudo su imbk -c "cd ~/apps/agent; git remote add upstream https://$github_user@github.com/xvespa/imbk-agent" || {
   printe Could not add agent upstream
