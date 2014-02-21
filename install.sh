@@ -242,9 +242,16 @@ sudo source $_BASE/lib/nvm/nvm.sh || {
   exit
 }
 
+printm Updating bashrc
+
+sudo cat << BASHRC >> /home/imbk/.bashrc
+# GET NVM
+. ~/lib/nvm/nvm.sh
+BASHRC
+
 printm 'Installling node';
 
-sudo su imbk -c "source ~/lib/nvm/nvm.sh; nvm install v0.10.25" || {
+sudo su imbk -c "nvm install v0.10.25" || {
   printe Could not install node
   exit
 }
