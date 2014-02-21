@@ -143,7 +143,7 @@ cd $_BASE/lib || {
   exit
 }
 
-sudo su imbk - c 'wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz' || {
+sudo su imbk -c 'wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz' || {
   printe Could not download mongodb
   exit
 }
