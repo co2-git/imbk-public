@@ -324,7 +324,7 @@ sudo su imbk -c "cd ~/apps/agent; git config user.email $github_email" || {
 
 printm 'Installing agent node dependencies';
 
-sudo su imbk -c '~/bin/npm install' || {
+sudo su imbk -c 'cd ~/apps/agent; ~/bin/npm install' || {
   printe Could not install agent node dependencies
   exit
 }
