@@ -239,10 +239,8 @@ sudo su imbk -c 'git clone https://github.com/creationix/nvm' || {
 
 printm Updating bashrc
 
-sudo cat << BASHRC >> /home/imbk/.bashrc
-# GET NVM
-. ~/lib/nvm/nvm.sh
-BASHRC
+sudo su imbk -c 'touch ~/.bashrc'
+sudo su imbk -c "echo '. ~/lib/nvm/nvm.sh' >> ~/.bash_rc"
 
 printm 'Installling node';
 
