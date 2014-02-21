@@ -20,7 +20,7 @@ printm 'Installing Immobileaks SDK'
 
 printm Installing low-level dependencies
 
-sudo apt-get install curl  libcurl4-openssl-dev
+sudo apt-get install curl libcurl4-openssl-dev g++
 
 _USER=imbk
 _BASE=/home/$_USER;
@@ -263,33 +263,35 @@ sudo su imbk -c "ln -s ~/lib/nvm/v0.10.25/bin/npm ~/bin/npm" || {
 
 # Installing node modules
 
-# echo 'Creating package.json'
+printm 'Creating package.json'
 
-# cat <<DOC > $_BASE/package.json
-# {
-#   "name": "imbk",
-#   "version": "0.0.0",
-#   "description": "",
-#   "scripts": {
-#     "test": "echo \"Error: no test specified\" && exit 1"
-#   },
-#   "author": "",
-#   "license": "BSD",
-#   "dependencies": {
-#     "express": "~3.4.7",
-#     "bower": "~1.2.8"
-#   }
-# }
-# DOC
+sudo touch /home/imbk/package.json
 
-# echo 'Installing node modules';
+sudo cat <<DOC > /home/imbk/package.json
+{
+  "name": "imbk",
+  "version": "0.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD",
+  "dependencies": {
+    "express": "~3.4.7",
+    "bower": "~1.2.8"
+  }
+}
+DOC
 
-# cd $_BASE
+sudo chown imbk /home/imbk/package.json
 
-# $_BASE/bin/npm install || {
-#   echo Could not install node modules
-#   exit
-# }
+printm 'Installing node modules';
+
+sudo su imbk -c 'cd ~; ~/bin/npm install' || {
+  echo Could not install node modules
+  exit
+}
 
 # ################################################### #
 # Installing agent
@@ -329,53 +331,72 @@ sudo su imbk -c 'cd ~/apps/agent; ~/bin/npm install' || {
   exit
 }
 
-exit
-
 # ################################################### #
 # Installing API
 # ################################################### #
 
 printm 'Installing API';
 
-cd $_BASE/apps
+sudo git clone https://$github_user@github.com/$github_user/imbk-api /home/imbk/apps/api
 
-sudo git clone https://$github_user@github.com/$github_user/imbk-api api
+sudo chown -R imbk /home/imbk/apps/api
 
-cd $_BASE/apps/api
+sudo su imbk -c "cd ~/apps/api; git remote add upstream https://$github_user@github.com/xvespa/imbk-api" || {
+  printe Could not add api upstream
+  exit
+}
 
-sudo git remote add upstream https://$github_user@github.com/xvespa/imbk-api
-sudo git config user.name $github_user
-sudo git config user.email $github_email
+sudo su imbk -c "cd ~/apps/api; git config user.name $github_user" || {
+  printe Could not configure github user name
+  exit
+}
+
+sudo su imbk -c "cd ~/apps/api; git config user.email $github_email" || {
+  printe COuld not configure github email
+  exit
+}
 
 # Install api dependencies
 
-echo 'Installing API node dependencies';
+printm 'Installing API node dependencies';
 
-sudo $_BASE/bin/npm install
+sudo su imbk -c 'cd ~/apps/api; ~/bin/npm install' || {
+  printe Could not install api node dependencies
+  exit
+}
 
 # ################################################### #
 # Installing modules
 # ################################################### #
 
-echo 'Installing modules';
+printm 'Installing modules';
 
-cd $_BASE/apps
+sudo git clone https://$github_user@github.com/$github_user/imbk-modules /home/imbk/apps/modules
 
-git clone https://$github_user@github.com/$github_user/imbk-modules modules
+sudo chown -R imbk /home/imbk/apps/modules
 
-cd $_BASE/apps/modules
+sudo su imbk -c "cd ~/apps/modules; git remote add upstream https://$github_user@github.com/xvespa/imbk-modules" || {
+  printe Could not add modules upstream
+  exit
+}
 
-git remote add upstream https://$github_user@github.com/xvespa/imbk-modules
-git config user.name $github_user
-git config user.email $github_email
+sudo su imbk -c "cd ~/apps/modules; git config user.name $github_user" || {
+  printe Could not configure github user name
+  exit
+}
 
-# Install mdoules dependencies
+sudo su imbk -c "cd ~/apps/modules; git config user.email $github_email" || {
+  printe COuld not configure github email
+  exit
+}
 
-echo 'Installing Modules bower dependencies'
+# Install modules dependencies
 
-cd $_BASE/apps/modules
+printm 'Installing Modules bower dependencies'
 
-$_BASE/bin/node $_BASE/node_modules/.bin/bower install
+sudo su imbk -c "cd ~/apps/modules; ~/bin/node ~/node_modules/.bin/bower install"
+
+exit
 
 # ################################################### #
 # Installing App
