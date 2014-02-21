@@ -219,7 +219,7 @@ sudo su imbk -c 'wget http://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-5.6.15-
   exit
 }
 
-sudo su imbk -c 'dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb' || {
+sudo dpkg -i  mysql-5.6.15-debian6.0-x86_64.deb || {
   printe Could not install MySQL
   exit
 }
