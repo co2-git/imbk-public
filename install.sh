@@ -82,7 +82,7 @@ sudo apt-get install git || {
 
 printm 'Creating imbk bin folder';
 
-sudo mkdir $_BASE/bin || {
+sudo su imbk -c "mkdir ~/bin" || {
   printe Could not create imbk/bin folder;
   exit 3
 }
@@ -91,7 +91,7 @@ sudo mkdir $_BASE/bin || {
 
 printm 'Creating lib directory'
 
-sudo mkdir $_BASE/lib || {
+sudo su imbk -c "mkdir ~/lib" || {
   printe Could not create lib folder
   exit
 }
@@ -100,7 +100,7 @@ sudo mkdir $_BASE/lib || {
 
 printm 'Creating var directory'
 
-sudo mkdir $_BASE/var || {
+sudo su imbk -c "mkdir ~/var" || {
   printe Could not create var directory
   exit
 }
@@ -109,7 +109,7 @@ sudo mkdir $_BASE/var || {
 
 printm 'Creating data directory'
 
-sudo mkdir $_BASE/var/data || {
+sudo su imbk -c "mkdir ~/data" || {
   printe Could not create data directory
   exit
 }
@@ -118,7 +118,7 @@ sudo mkdir $_BASE/var/data || {
 
 printm 'Creating agent data directory'
 
-sudo mkdir $_BASE/var/data/agent || {
+sudo su imbk -c "mkdir ~/var/data/agent" || {
   printe COuld not create agent data directory
   exit
 }
@@ -127,10 +127,12 @@ sudo mkdir $_BASE/var/data/agent || {
 
 printm 'Creating apps directory'
 
-sudo mkdir $_BASE/apps || {
+sudo su imbk -c "mkdir ~/apps" || {
   printe Could not create apps directory
   exit
 }
+
+exit
 
 # ################################################### #
 # Installing mongodb
@@ -235,7 +237,8 @@ sudo git clone https://github.com/creationix/nvm || {
   printe Could not download nvm
   exit
 }
-. $_BASE/lib/nvm/nvm.sh || {
+
+source $_BASE/lib/nvm/nvm.sh || {
   printe Could not source nvm
   exit
 }
@@ -330,39 +333,39 @@ sudo git config user.email $github_email || {
 
 # Install agent dependencies
 
-echo 'Installing agent node dependencies';
+printm 'Installing agent node dependencies';
 
-$_BASE/bin/npm install
+sudo $_BASE/bin/npm install
 
 # ################################################### #
 # Installing API
 # ################################################### #
 
-echo 'Installing API';
+printm 'Installing API';
 
 cd $_BASE/apps
 
-git clone https://$github_user@github.com/$github_user/imbk-api api
+sudo git clone https://$github_user@github.com/$github_user/imbk-api api
 
 cd $_BASE/apps/api
 
-git remote add upstream https://$github_user@github.com/xvespa/imbk-api
-git config user.name $github_user
-git config user.email $github_email
+sudo git remote add upstream https://$github_user@github.com/xvespa/imbk-api
+sudo git config user.name $github_user
+sudo git config user.email $github_email
 
 # Install api dependencies
 
 echo 'Installing API node dependencies';
 
-$_BASE/bin/npm install
-
-echo 'Installing modules';
-
-cd $_BASE/apps
+sudo $_BASE/bin/npm install
 
 # ################################################### #
 # Installing modules
 # ################################################### #
+
+echo 'Installing modules';
+
+cd $_BASE/apps
 
 git clone https://$github_user@github.com/$github_user/imbk-modules modules
 
