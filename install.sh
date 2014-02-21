@@ -237,11 +237,6 @@ sudo su imbk -c 'git clone https://github.com/creationix/nvm' || {
   exit
 }
 
-sudo source $_BASE/lib/nvm/nvm.sh || {
-  printe Could not source nvm
-  exit
-}
-
 printm Updating bashrc
 
 sudo cat << BASHRC >> /home/imbk/.bashrc
