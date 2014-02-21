@@ -109,7 +109,7 @@ sudo su imbk -c "mkdir ~/var" || {
 
 printm 'Creating data directory'
 
-sudo su imbk -c "mkdir ~/data" || {
+sudo su imbk -c "mkdir ~/var/data" || {
   printe Could not create data directory
   exit
 }
@@ -132,8 +132,6 @@ sudo su imbk -c "mkdir ~/apps" || {
   exit
 }
 
-exit
-
 # ################################################### #
 # Installing mongodb
 # ################################################### #
@@ -145,31 +143,31 @@ cd $_BASE/lib || {
   exit
 }
 
-sudo wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz || {
+sudo su imbk - c 'wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz' || {
   printe Could not download mongodb
   exit
 }
 
 printm 'Uncompressing mongodb'
 
-sudo tar -xzf mongodb-linux-x86_64-2.4.9.tgz || {
+sudo su imbk -c 'tar -xzf mongodb-linux-x86_64-2.4.9.tgz' || {
   printe Could not uncompress mongodb
   exit
 }
 
-sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongo $_BASE/bin/mongo || {
+sudo su imbk -c "ln -s ~/lib/mongodb-linux-x86_64-2.4.9/bin/mongo ~/bin/mongo" || {
   printe Could not create mongo daemon shortcut
   exit
 }
 
-sudo ln -s $_BASE/lib/mongodb-linux-x86_64-2.4.9/bin/mongod $_BASE/bin/mongod || {
+sudo su imbk -c "ln -s ~/lib/mongodb-linux-x86_64-2.4.9/bin/mongod ~/bin/mongod" || {
   printe Could not create mongo shell shortcut
   exit
 }
 
-touch /tmp/immomongo
+sudo su imbk -c 'touch /tmp/immomongo'
 
-sudo $_BASE/bin/mongod --dbpath $_BASE/var/data/agent 1>/tmp/immomongo 2>/tmp/immomongo &
+sudo su imbk -c "~/bin/mongod --dbpath ~/var/data/agent 1>/tmp/immomongo 2>/tmp/immomongo" &
 
 printm 'Waiting for mongodb to be up'
 
@@ -207,6 +205,8 @@ if [ $? -ne 0 ]; then
   printe Could not connect to mongo
   exit
 fi
+
+exit
 
 # ################################################### #
 # Installing MySQL
