@@ -291,37 +291,29 @@ sudo su imbk -c "ln -s ~/lib/nvm/v0.10.25/bin/npm ~/bin/npm" || {
 #   exit
 # }
 
-exit
-
 # ################################################### #
 # Installing agent
 # ################################################### #
 
 printm 'Installing agent';
 
-cd $_BASE/apps
 
-sudo git clone https://$github_user@github.com/$github_user/imbk-agent agent || {
+sudo su imbk -c "git clone https://$github_user@github.com/$github_user/imbk-agent ~/apps/agent" || {
   printe Could not clone agent
   exit
 }
 
-cd $_BASE/apps/agent || {
-  printe Could not cd to agent
-  exit
-}
-
-sudo git remote add upstream https://$github_user@github.com/xvespa/imbk-agent || {
+sudo su imbk -c "cd ~/apps/agent; git remote add upstream https://$github_user@github.com/xvespa/imbk-agent" || {
   printe Could not add agent upstream
   exit
 }
 
-sudo git config user.name $github_user || {
+sudo su imbk -c "cd ~/apps/agent; git config user.name $github_user" || {
   printe Could not configure github user name
   exit
 }
 
-sudo git config user.email $github_email || {
+sudo su imbk -c "cd ~/apps/agent; git config user.email $github_email" || {
   printe COuld not configure github email
   exit
 }
@@ -330,7 +322,12 @@ sudo git config user.email $github_email || {
 
 printm 'Installing agent node dependencies';
 
-sudo $_BASE/bin/npm install
+sudo su imbk -c '~/bin/npm install' || {
+  printe Could not install agent node dependencies
+  exit
+}
+
+exit
 
 # ################################################### #
 # Installing API
