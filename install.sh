@@ -265,26 +265,9 @@ sudo su imbk -c "ln -s ~/lib/nvm/v0.10.25/bin/npm ~/bin/npm" || {
 
 printm 'Creating package.json'
 
-sudo touch /home/imbk/package.json
+sudo su imbk -c 'touch ~/package.json'
 
-sudo cat <<DOC > /home/imbk/package.json
-{
-  "name": "imbk",
-  "version": "0.0.0",
-  "description": "",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "BSD",
-  "dependencies": {
-    "express": "~3.4.7",
-    "bower": "~1.2.8"
-  }
-}
-DOC
-
-sudo chown imbk /home/imbk/package.json
+sudo su imbk -c 'echo \{"name":"imbk","version":"0.0.0","description":"","author":"","license":"BSD","dependencies":\{"express":"~3.4.7","bower":"~1.2.8"\}\} > ~/package.json'
 
 printm 'Installing node modules';
 
