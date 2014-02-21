@@ -267,7 +267,7 @@ printm 'Creating package.json'
 
 sudo su imbk -c 'touch ~/package.json'
 
-sudo su imbk -c 'echo \{"name":"imbk","version":"0.0.0","description":"","author":"","license":"BSD","dependencies":\{"express":"~3.4.7","bower":"~1.2.8"\}\} > ~/package.json'
+sudo su imbk -c 'echo \{\"name\":\"imbk\",\"version\":\"0.0.0\",\"description\":\"\",\"author\":\"\",\"license\":\"BSD\",\"dependencies\":\{\"express\":\"~3.4.7\",\"bower\":\"~1.2.8\"\}\} > ~/package.json'
 
 printm 'Installing node modules';
 
