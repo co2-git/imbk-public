@@ -20,7 +20,7 @@ printm 'Installing Immobileaks SDK'
 
 printm Installing low-level dependencies
 
-sudo apt-get install curl libcurl4-openssl-dev g++
+sudo apt-get install curl libcurl4-openssl-dev g++ software-properties-common
 
 _USER=imbk
 _BASE=/home/$_USER;
@@ -481,7 +481,7 @@ sudo su imbk -c "~/bin/mongod --dbpath ~/var/data/agent --shutdown"
 
 echo 'Starting ecosystem';
 
-sudo su imbk -c ~/bin/start || {
+sudo su imbk -c "~/bin/start" || {
   echo Could not start ecosystem
   exit
 }
