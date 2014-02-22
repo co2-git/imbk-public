@@ -267,7 +267,7 @@ printm 'Creating package.json'
 
 sudo su imbk -c 'touch ~/package.json'
 
-sudo su imbk -c 'echo \{\"name\":\"imbk\",\"version\":\"0.0.0\",\"description\":\"\",\"author\":\"\",\"license\":\"BSD\",\"dependencies\":\{\"express\":\"~3.4.7\",\"bower\":\"~1.2.8\"\}\} > ~/package.json'
+sudo su imbk -c 'echo \{\"name\":\"imbk\",\"version\":\"0.0.0\",\"description\":\"\",\"author\":\"\",\"license\":\"BSD\",\"dependencies\":\{\"express\":\"~3.4.7\",\"bower\":\"~1.2.8\",\"jade\":\"~1.1.5\"\}\} > ~/package.json'
 
 printm 'Installing node modules';
 
@@ -419,7 +419,7 @@ printm 'Installing App bower dependencies'
 
 sudo su imbk -c "cd ~/apps/app/public; ~/bin/node ~/node_modules/.bin/bower install"
 
-sudo su imbk -c "ln -s ~/apps/modules ~/apps/app/public/bower_components/imbk_modules"
+sudo su imbk -c "ln -s /home/imbk/apps/modules /home/imbk/apps/app/public/bower_components/imbk_modules"
 
 # ################################################### #
 # Installing Dashboard
@@ -461,7 +461,7 @@ printm 'Installing Dashboard bower dependencies'
 
 sudo su imbk -c "cd ~/apps/dashboard/public; ~/bin/node ~/node_modules/.bin/bower install"
 
-sudo su imbk -c "ln -s ~/apps/modules ~/apps/dashboard/public/bower_components/imbk_modules"
+sudo su imbk -c "ln -s /home/imbk/apps/modules /home/imbk/apps/dashboard/public/bower_components/imbk_modules"
 
 # ################################################### #
 # Closing
