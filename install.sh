@@ -20,7 +20,7 @@ printm 'Installing Immobileaks SDK'
 
 printm Installing low-level dependencies
 
-sudo apt-get install curl libcurl4-openssl-dev g++ software-properties-common
+sudo apt-get install curl libcurl4-openssl-dev g++ software-properties-common python-software-properties
 
 _USER=imbk
 _BASE=/home/$_USER;
