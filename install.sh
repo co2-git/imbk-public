@@ -11,7 +11,6 @@ function mkrep () {
   mkdir bin
   mkdir apps
   cat << BASH >> ~/.bashrc
-;
 export PATH="$PWD/bin:$PATH";
 BASH
   . ~/.bashrc
@@ -28,7 +27,6 @@ function install_mongodb () {
   wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz;
   tar -xzf mongodb-linux-x86_64-2.4.9.tgz;
   cat << BASH >> ~/.bashrc
-;
 export PATH="$PWD/mongodb-linux-x86_64-2.4.9/bin:$PATH";
 BASH
   . ~/.bashrc
@@ -71,7 +69,6 @@ function install_node () {
   tar xzf node-v0.10.26-linux-x64.tar.gz
   cd node-v0.10.26-linux-x64/
   cat << BASH >> ~/.bashrc
-;
 export PATH="$PWD/bin:$PATH";
 BASH
   . ~/.bashrc
