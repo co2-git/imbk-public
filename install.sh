@@ -108,6 +108,9 @@ function install_mysql () {
 
 
 function install_apps () {
+
+  . ~/.bashrc
+
   cd ~/apps;
 
   git clone https://github.com/xvespa/imbk-modules modules;
