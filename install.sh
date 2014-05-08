@@ -40,7 +40,12 @@ BASH
 
   sudo ln -s $PWD/bin/node /usr/bin/node
 
-  npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk
+  if npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk; then
+    bigecho dependencies installed!
+  else
+    echo Could not npm dependencies
+    return 1
+  fi
 }
 
 function install_mongodb () {
@@ -143,7 +148,10 @@ install_git;
 
 bigecho Installing node
 
-install_node;
+if ! install_node; then
+  echo 'Could not install node';
+  exit;
+fi
 
 bigecho Installing apps
 
