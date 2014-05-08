@@ -34,11 +34,12 @@ function install_node () {
   cat << BASH >> ~/.bashrc
 export PATH="$PWD/bin:$PATH";
 BASH
-  . ~/.bashrc
 
   bigecho Installing dependencies
 
   sudo ln -s $PWD/bin/node /usr/bin/node
+
+  . ~/.bashrc
 
   if npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk; then
     bigecho dependencies installed!
@@ -142,6 +143,8 @@ bigecho Making repository
 
 mkrep;
 
+bigecho $PATH
+
 bigecho Installing git
 
 install_git;
@@ -150,6 +153,7 @@ bigecho Installing node
 
 if ! install_node; then
   echo 'Could not install node';
+  echo $PATH
   exit;
 fi
 
