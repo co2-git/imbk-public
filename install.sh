@@ -41,7 +41,7 @@ BASH
 
   . ~/.bashrc
 
-  if npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk; then
+  if $PWD/bin/npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk; then
     bigecho dependencies installed!
   else
     echo Could not npm dependencies
