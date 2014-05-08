@@ -54,7 +54,9 @@ BASH
   do
     if ! $PWD/bin/npm install -g $node_module; then
       echo 'Could not install npm dependency '$node_module;
+      break
       return 1
+    fi
   done
 }
 
