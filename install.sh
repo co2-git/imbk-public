@@ -41,17 +41,21 @@ BASH
 
   . ~/.bashrc
 
-  if $PWD/bin/npm install -g \
+  node_modules=( \
     bower browserify colors \
     emit.js co2-git/hop node-sass \
     async request socket.io \
     express jade aws-sdk\
-    n; then
-      bigecho dependencies installed!
-  else
-    echo Could not npm dependencies
-    return 1
-  fi
+    g )
+
+  counter=$((0))
+
+  for node_module in ${node_modules[@]}
+  do
+    if ! $PWD/bin/npm install -g $node_module; then
+      echo 'Could not install npm dependency '$node_module;
+      return 1
+  done
 }
 
 function install_mongodb () {
