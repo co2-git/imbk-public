@@ -108,7 +108,29 @@ function install_mongodb_db () {
   robot install-dashboard-database;
 }
 
+function bigecho () {
+  echo
+  echo
+  echo
+  echo "$@"
+  echo
+  echo
+  echo
+  echo
+}
+
+bigecho Making repository
+
 mkrep;
+
+bigecho Installing node
+
 install_node;
+
+bigecho Installing git
+
 install_git;
+
+bigecho Installing apps
+
 install_apps;
