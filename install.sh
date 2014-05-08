@@ -2,18 +2,39 @@
 
 function mkrep () {
   cd ~;
-  mkdir lib/;
-  mkdir var;
-  mkdir var/data;
-  mkdir var/data/dashboard;
-  mkdir var/stream;
-  mkdir -p var/dump/inbox/dashboard/official;
+  
+  bigecho Creating directories
+  
+  mkdir lib;
+  mkdir -p var/log/actions;
   mkdir bin
   mkdir apps
+
+  bigecho Updating bashrc and sourcing it
+
+  cat << BASH >> ~/.bashrc
+export PATH="$PWD/bin:$PATH";
+BASH
+  
+  . ~/.bashrc
+}
+
+function install_node () {
+  sudo apt-get install wget g++;
+  cd ~/lib
+  wget http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-x64.tar.gz
+  tar xzf node-v0.10.26-linux-x64.tar.gz
+  cd node-v0.10.26-linux-x64/
   cat << BASH >> ~/.bashrc
 export PATH="$PWD/bin:$PATH";
 BASH
   . ~/.bashrc
+
+  bigecho Installing depnedencies
+
+  npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk
+  
+  sudo ln -s $PWD/bin/node /usr/bin/node
 }
 
 function install_git () {
@@ -24,11 +45,16 @@ function install_git () {
 
 function install_mongodb () {
   cd ~/lib/;
+  bigecho Downloading MongoDB
   wget http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.9.tgz;
   tar -xzf mongodb-linux-x86_64-2.4.9.tgz;
+
+  bigecho Updating bashrc and sourcing it
+
   cat << BASH >> ~/.bashrc
 export PATH="$PWD/mongodb-linux-x86_64-2.4.9/bin:$PATH";
 BASH
+  
   . ~/.bashrc
 }
 
@@ -62,19 +88,7 @@ function install_mysql () {
   exit
 }
 
-function install_node () {
-  sudo apt-get install wget g++;
-  cd ~/lib
-  wget http://nodejs.org/dist/v0.10.26/node-v0.10.26-linux-x64.tar.gz
-  tar xzf node-v0.10.26-linux-x64.tar.gz
-  cd node-v0.10.26-linux-x64/
-  cat << BASH >> ~/.bashrc
-export PATH="$PWD/bin:$PATH";
-BASH
-  . ~/.bashrc
-  npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk
-  sudo ln -s $PWD/bin/node /usr/bin/node
-}
+
 
 function install_apps () {
   cd ~/apps;
@@ -110,11 +124,11 @@ function install_mongodb_db () {
 
 function bigecho () {
   echo
-  echo
-  echo
+  echo ====================================================
+  echo ====================================================
   echo "$@"
-  echo
-  echo
+  echo ====================================================
+  echo ====================================================
   echo
   echo
 }
