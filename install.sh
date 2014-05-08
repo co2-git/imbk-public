@@ -19,6 +19,12 @@ BASH
   . ~/.bashrc
 }
 
+function install_git () {
+  sudo add-apt-repository ppa:git-core/ppa
+  sudo apt-get update
+  sudo apt-get install git
+}
+
 function install_node () {
   sudo apt-get install wget g++;
   cd ~/lib
@@ -30,17 +36,11 @@ export PATH="$PWD/bin:$PATH";
 BASH
   . ~/.bashrc
 
-  bigecho Installing depnedencies
+  bigecho Installing dependencies
+
+  sudo ln -s $PWD/bin/node /usr/bin/node
 
   npm install -g bower browserify colors emit.js co2-git/hop node-sass async request socket.io express jade aws-sdk
-  
-  sudo ln -s $PWD/bin/node /usr/bin/node
-}
-
-function install_git () {
-  sudo add-apt-repository ppa:git-core/ppa
-  sudo apt-get update
-  sudo apt-get install git
 }
 
 function install_mongodb () {
@@ -137,13 +137,13 @@ bigecho Making repository
 
 mkrep;
 
-bigecho Installing node
-
-install_node;
-
 bigecho Installing git
 
 install_git;
+
+bigecho Installing node
+
+install_node;
 
 bigecho Installing apps
 
